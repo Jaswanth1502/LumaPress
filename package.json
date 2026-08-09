@@ -1,0 +1,28 @@
+{
+  "name": "lumapress-monorepo",
+  "version": "1.0.0",
+  "private": true,
+  "description": "LumaPress - Production-Ready Full-Stack Editorial Blogging Platform",
+  "workspaces": [
+    "client",
+    "server"
+  ],
+  "scripts": {
+    "dev": "concurrently \"npm run dev --workspace=server\" \"npm run dev --workspace=client\"",
+    "dev:server": "npm run dev --workspace=server",
+    "dev:client": "npm run dev --workspace=client",
+    "build": "npm run build --workspace=server && npm run build --workspace=client",
+    "build:server": "npm run build --workspace=server",
+    "build:client": "npm run build --workspace=client",
+    "test": "npm run test --workspace=server && npm run test --workspace=client",
+    "test:server": "npm run test --workspace=server",
+    "test:client": "npm run test --workspace=client",
+    "test:e2e": "playwright test",
+    "seed": "npm run seed --workspace=server"
+  },
+  "devDependencies": {
+    "@playwright/test": "^1.50.1",
+    "concurrently": "^9.1.2",
+    "typescript": "^5.8.2"
+  }
+}
