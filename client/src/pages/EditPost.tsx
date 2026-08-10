@@ -10,6 +10,7 @@ import { getPostBySlugApi, updatePostApi } from '../api/posts.api';
 import { useAuth } from '../context/AuthContext';
 import { EmptyState } from '../components/EmptyState';
 import { ImageInput } from '../components/ImageInput';
+import { ArticlePreview } from '../components/ArticlePreview';
 import { toast } from 'sonner';
 import {
   Edit,
@@ -78,6 +79,7 @@ export const EditPost: React.FC = () => {
 
   const contentValue = watch('content', '');
   const excerptValue = watch('excerpt', '');
+  const titleValue = watch('title', '');
 
   const updateMutation = useMutation({
     mutationFn: (data: any) => updatePostApi(post!._id, data),
@@ -309,15 +311,14 @@ export const EditPost: React.FC = () => {
                 className="w-full p-2 border-0 bg-transparent text-sm focus:outline-none font-mono text-slate-800 leading-relaxed resize-y"
               />
             ) : (
-              <div className="prose prose-slate max-w-none min-h-[380px] p-2">
-                {contentValue?.trim() ? (
-                  <ReactMarkdown remarkPlugins={[remarkGfm]}>{contentValue}</ReactMarkdown>
-                ) : (
-                  <p className="text-slate-400 italic text-sm">
-                    Markdown live preview will render here...
-                  </p>
-                )}
-              </div>
+              <ArticlePreview
+                title={titleValue}
+                excerpt={excerptValue}
+                content={contentValue}
+                coverImage={watch('coverImage')}
+                tags={tags}
+                author={user}
+              />
             )}
           </div>
         </div>

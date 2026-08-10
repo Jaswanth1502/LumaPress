@@ -9,6 +9,8 @@ import remarkGfm from 'remark-gfm';
 import { createPostApi } from '../api/posts.api';
 import { TagBadge } from '../components/TagBadge';
 import { ImageInput } from '../components/ImageInput';
+import { ArticlePreview } from '../components/ArticlePreview';
+import { useAuth } from '../context/AuthContext';
 import { toast } from 'sonner';
 import {
   PenSquare,
@@ -33,6 +35,7 @@ type PostFormValues = z.infer<typeof postSchema>;
 export const CreatePost: React.FC = () => {
   const navigate = useNavigate();
   const queryClient = useQueryClient();
+  const { user } = useAuth();
   const [activeTab, setActiveTab] = useState<'write' | 'preview'>('write');
   const [tags, setTags] = useState<string[]>([]);
   const [tagInput, setTagInput] = useState('');
@@ -268,15 +271,14 @@ export const CreatePost: React.FC = () => {
                 className="w-full p-2 border-0 bg-transparent text-sm focus:outline-none font-mono text-slate-800 leading-relaxed resize-y"
               />
             ) : (
-              <div className="prose prose-slate max-w-none min-h-[380px] p-2">
-                {contentValue.trim() ? (
-                  <ReactMarkdown remarkPlugins={[remarkGfm]}>{contentValue}</ReactMarkdown>
-                ) : (
-                  <p className="text-slate-400 italic text-sm">
-                    Markdown live preview will render here as you write...
-                  </p>
-                )}
-              </div>
+              <ArticlePreview
+                title={titleValue}
+                excerpt={excerptValue}
+                content={contentValue}
+                coverImage={watch('coverImage')}
+                tags={tags}
+                author={user}
+              />
             )}
           </div>
         </div>
